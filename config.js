@@ -1,9 +1,10 @@
-const Config = {
+const CONFIG = {
   mysqlConnectionObject: {
-    host     : 'localhost:3306',
+    host     : 'localhost',
     user     : 'root',
-    password : 'root'
-  }
+    password : 'root',
+  },
+  databaseName: 'taxidb',
 }
 
-module.exports = Config;
+module.exports = CONFIG;
