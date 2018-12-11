@@ -6,7 +6,7 @@ class BaseData {
     throw 'Method not implemented';
   }
 
-  getById(id) {
+  getById() {
     throw 'Method not implemented';
   }
 

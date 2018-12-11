@@ -6,6 +6,8 @@ const logger = require('morgan');
 const CONFIG = require('./config');
 const Database = require('./db/Database');
 const CarData = require('./data/car.data');
+const AddressData = require('./data/address.data');
+const DriverData = require('./data/driver.data');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 var debug = require('debug')('taxiinformationsystem:server');
@@ -39,6 +41,28 @@ async function populateDb() {
   await carData.create("3100", "P0324AB", "Nissan", "Patrol", 6, "TRUE", "2022-04-10");
   await carData.create("3800", "A3971EA", "Citroen", "C5", 5, "TRUE", "2020-07-11");
   await carData.create("2490", "P3652HH", "Citroen", "C4", 4, "False", "2020-08-01");
+
+  // Populate address table
+  const addressData = new AddressData(db);
+  await addressData.init();
+  await addressData.create("Varna", "Slivnica", "120");
+  await addressData.create("Varna", "Studentska", "3");
+  await addressData.create("Sofia", "Cherni Vruh", "25");
+  await addressData.create("Sofia", "Tsar Osvoboditel", "18");
+  await addressData.create("Varna", "Tsar Osvoboditel", "30");
+  await addressData.create("Varna", "Mariq Luiza", "73");
+  await addressData.create("Varna", "Vasil Levski", "55");
+  await addressData.create("Varna", "Vladislav Varnenchik", "10");
+  await addressData.create("Sofia", "Vitosha", "1");
+  await addressData.create("Sofia", "Vitosha", "70");
+
+  // Populate Drivers table
+  const driverData = new DriverData(db);
+  await driverData.init();
+  await driverData.create("John", "Snow", "8811024862", "2019-10-10", "4000", "Varna", "Kraiezerna", "5");
+  const transaction = await driverData.getById(1);
+  console.log('transaction: ', transaction);
+
 
   // TODO populate   
 }

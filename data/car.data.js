@@ -5,7 +5,7 @@ class CarData extends BaseData {
 
   constructor(database) {
     super();
-    this.database = database
+    this.database = database;
   }
 
   async init() {
