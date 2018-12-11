@@ -41,7 +41,7 @@ async function populateDb() {
   await carData.create("1428", "PB8712OM", "Toyota", "Yaris", 3, "FALSE", "2019-03-25");
   await carData.create("3100", "P0324AB", "Nissan", "Patrol", 6, "TRUE", "2022-04-10");
   await carData.create("3800", "A3971EA", "Citroen", "C5", 5, "TRUE", "2020-07-11");
-  await carData.create("2490", "P3652HH", "Citroen", "C4", 4, "False", "2020-08-01");
+  await carData.create("2490", "P3652HH", "Citroen", "C4", 4, "FALSE", "2020-08-01");
 
   // Populate address table
   const addressData = new AddressData(db);
@@ -74,16 +74,16 @@ async function populateDb() {
   // Populate Orders table
   const orderData = new OrderData(db);
   await orderData.init();
-  await orderData.create("Varna", "8-mi primorski polk", "10", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Vasil Levski", "144", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Maria Luiza", "32", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Studentska", "1", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Kraiezerna", "240", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Vasil Levski", "18", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Sofia", "Tsar Osvoboditel", "10", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Sofia", "Tsar Osvobodite;", "12", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Bregalnica", "4", new Date().toISOString().slice(0, 19).replace('T', ' '));   
-  await orderData.create("Varna", "Vladislav Varnenchik", "30", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Maria Luiza", "32", "2018-12-11 17:02:51", 12, 20, "B5555CH", 9012364787);   
+  await orderData.create("Varna", "Studentska", "1", "2018-11-10 18:00:00", 10, 14, "C1672TT", 9012364787);     
+  await orderData.create("Varna", "Kraiezerna", "240", "2018-12-08 20:00:00", 6, 10, "PB8712OM", 7510038484); 
+  await orderData.create("Varna", "Vasil Levski", "18", "2018-12-09 06:00:00", 6, 10, "C1672TT", 7784449130);   
+  await orderData.create("Sofia", "Tsar Osvoboditel", "10", "2018-12-09 06:00:00", 6, 10, "A3050CM", 7784449130); 
+  await orderData.create("Sofia", "Tsar Osvobodite;", "12", "2018-10-30 02:00:00", 4, 10, "A3050CM", 9214013381);  
+  await orderData.create("Varna", "Bregalnica", "4", "2018-12-03 10:00:00", 5, 7, "PB8712OM", 9012364787);  
+  await orderData.create("Varna", "Vladislav Varnenchik", "30", "2018-12-07 07:00:00", 5, 6, "A3050CM", 9214013381);
+  await orderData.create("Varna", "8-mi primorski polk", "10", new Date().toISOString().slice(0, 19).replace('T', ' '), 5, 8, "B5555CH", 8612031846 );   
+  await orderData.create("Varna", "Vasil Levski", "144", new Date().toISOString().slice(0, 19).replace('T', ' '), 2, 3, "P3652HH", 7510038484);   
 }
 
 /**
