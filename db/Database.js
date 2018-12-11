@@ -27,11 +27,10 @@ class Database {
       this.connection.beginTransaction((err1) => {
         if (err1) { return reject(err1); }
 
-        this.connection.query(query1, (err2, res) => {
+        this.connection.query(query1, (err2) => {
           if (err2) { return reject(err2); }
 
           this.connection.query(query2, (err3) => {
-
             if (err3) { return reject(err3); }
             this.connection.commit();
             return resolve();

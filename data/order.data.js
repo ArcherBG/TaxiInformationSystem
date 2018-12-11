@@ -1,7 +1,7 @@
 const BaseData = require('./base/base.data');
 const dbName = require('../config').databaseName;
 
-class DriverData extends BaseData {
+class OrderData extends BaseData {
 
   constructor(database) {
     super();
@@ -10,43 +10,41 @@ class DriverData extends BaseData {
 
   async init() {
     await this.database.query(
-      `CREATE TABLE IF NOT EXISTS ${dbName}.drivers (
+      `CREATE TABLE IF NOT EXISTS ${dbName}.orders (
         id INT(32) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        first_name VARCHAR(255),
-        last_name VARCHAR(255),
-        egn VARCHAR(20),
-        license_valid DATE,
-        experience_in_days VARCHAR(50),
         fk_address INT(32) UNSIGNED,
+        startTime TIMESTAMP,
+        distance INT(32) UNSIGNED DEFAULT 0, 
+        bill INT(32) UNSIGNED DEFAULT 0, 
         FOREIGN KEY (fk_address)
         REFERENCES ${dbName}.addresses(id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
        )ENGINE=InnoDB;`);
-
   }
 
   async getById(id) {
-    const query = `SELECT * FROM ${dbName}.drivers WHERE id=${id}`;
+    const query = `SELECT * FROM ${dbName}.orders WHERE id=${id}`;
     return await this.database.query(query);
   }
 
-  async create(firstName, lastName, egn, licenseValidTo, experienceInDays, city, street, streetNumber) {
+  async create(city, street, streetNumber, startTime, distance = 0, bill = 0){
     const addressQuery = `INSERT INTO ${dbName}.addresses (
       city, street, street_number
       ) SELECT * FROM (SELECT "${city}", "${street}", "${streetNumber}") as tmp
       WHERE NOT EXISTS (
           SELECT city, street, street_number FROM ${dbName}.addresses WHERE (city="${city}" AND street="${street}" AND street_number="${streetNumber}")
-      ) LIMIT 1`;
+    ) LIMIT 1`;
 
-    const driversQuery = `INSERT INTO ${dbName}.drivers (
-      first_name, last_name, egn, license_valid, experience_in_days, fk_address
-    ) VALUES (
-      "${firstName}", "${lastName}", "${egn}", "${licenseValidTo}", "${experienceInDays}", (SELECT id FROM ${dbName}.addresses WHERE (city="${city}" AND street="${street}" AND street_number="${streetNumber}"))
+    const ordersQuery = `INSERT INTO ${dbName}.orders (
+      fk_address, startTime, distance, bill
+      ) VALUES (
+        (SELECT id FROM ${dbName}.addresses WHERE (city="${city}" AND street="${street}" AND street_number="${streetNumber}")), 
+        "${startTime}", ${distance}, ${bill}
     )`;
-    return await this.database.transaction(addressQuery, driversQuery);
+    return await this.database.transaction(addressQuery, ordersQuery);
   }
 
 }
 
-module.exports = DriverData;
+module.exports = OrderData;

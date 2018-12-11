@@ -8,6 +8,7 @@ const Database = require('./db/Database');
 const CarData = require('./data/car.data');
 const AddressData = require('./data/address.data');
 const DriverData = require('./data/driver.data');
+const OrderData = require('./data/order.data');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 var debug = require('debug')('taxiinformationsystem:server');
@@ -50,7 +51,7 @@ async function populateDb() {
   await addressData.create("Sofia", "Cherni Vruh", "25");
   await addressData.create("Sofia", "Tsar Osvoboditel", "18");
   await addressData.create("Varna", "Tsar Osvoboditel", "30");
-  await addressData.create("Varna", "Mariq Luiza", "73");
+  await addressData.create("Varna", "Maria Luiza", "73");
   await addressData.create("Varna", "Vasil Levski", "55");
   await addressData.create("Varna", "Vladislav Varnenchik", "10");
   await addressData.create("Sofia", "Vitosha", "1");
@@ -60,11 +61,29 @@ async function populateDb() {
   const driverData = new DriverData(db);
   await driverData.init();
   await driverData.create("John", "Snow", "8811024862", "2019-10-10", "4000", "Varna", "Kraiezerna", "5");
-  const transaction = await driverData.getById(1);
-  console.log('transaction: ', transaction);
+  await driverData.create("Jack", "Sparrow", "751210813", "2018-10-10", "300", "Varna", "Tsar Osvoboditel", "20");
+  await driverData.create("George", "Pasqualev", "751219999", "2021-03-05", "440", "Sofia", "Vitosha", "70");
+  await driverData.create("Ana", "Hansen", "9012364787", "2020-01-06", "500", "Varna", "Vladislav Varnenchik", "10");
+  await driverData.create("Robin", "Santa", "6504096413", "2020-02-01", "120", "Varna", "Bulair", "74");
+  await driverData.create("Julia", "Jolie", "8612031846", "2018-12-10", "670", "Sofia", "Vitosha", "26");
+  await driverData.create("Trevor", "Phillips", "6006047419", "2022-10-10", "8740", "Sofia", "Vitosha", "48");
+  await driverData.create("Nikolay", "Asenov", "7510038484", "2021-11-09", "200", "Varna", "Maria Luiza", "20");
+  await driverData.create("Ivan", "Ivanov", "9214013381", "2020-11-02", "300", "Varna", "Studentska", "22");
+  await driverData.create("Sam", "Smith", "7784449130", "2020-10-04", "1000", "Varna", "Vasil Levski", "130");
 
-
-  // TODO populate   
+  // Populate Orders table
+  const orderData = new OrderData(db);
+  await orderData.init();
+  await orderData.create("Varna", "8-mi primorski polk", "10", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Vasil Levski", "144", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Maria Luiza", "32", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Studentska", "1", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Kraiezerna", "240", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Vasil Levski", "18", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Sofia", "Tsar Osvoboditel", "10", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Sofia", "Tsar Osvobodite;", "12", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Bregalnica", "4", new Date().toISOString().slice(0, 19).replace('T', ' '));   
+  await orderData.create("Varna", "Vladislav Varnenchik", "30", new Date().toISOString().slice(0, 19).replace('T', ' '));   
 }
 
 /**
