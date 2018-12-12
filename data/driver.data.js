@@ -36,7 +36,6 @@ class DriverData extends BaseData {
     const query = `SELECT * FROM ${dbName}.drivers 
       INNER JOIN ${dbName}.addresses ON ${dbName}.drivers.fk_address=${dbName}.addresses.id
       WHERE ${key}=${value}`;
-      console.log(query);
     return await this.database.query(query);
   }
 

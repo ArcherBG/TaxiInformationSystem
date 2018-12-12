@@ -33,6 +33,14 @@ class OrderData extends BaseData {
        )ENGINE=InnoDB;`);
   }
 
+  async getAll(){
+    const query = `SELECT * FROM ${dbName}.orders
+      INNER JOIN ${dbName}.addresses ON ${dbName}.orders.fk_address=${dbName}.addresses.id
+      INNER JOIN ${dbName}.drivers ON ${dbName}.orders.fk_driver=${dbName}.drivers.id
+      INNER JOIN ${dbName}.cars ON ${dbName}.orders.fk_car=${dbName}.cars.id`;
+      return await this.database.query(query);
+  }
+
   async getById(id) {
     const query = `SELECT * FROM ${dbName}.orders WHERE id=${id}`;
     return await this.database.query(query);
