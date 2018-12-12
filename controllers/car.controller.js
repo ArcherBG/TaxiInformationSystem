@@ -2,25 +2,40 @@ const CarData = require('../data/car.data');
 
 class CarController {
   constructor(database) {
-    this.database = database;
     this.carData = new CarData(database);
   }
 
-  getAllCars(req, res) {
-    this.carData.getAll()
-      .then(cars => {
-        return res.status(200).json(cars);
-      });
+  getCars(req, res) {
+    if (req.query.id || req.query.regNum) {
+      return this.getCar(req, res);
+    } else {
+      this.carData.getAll()
+        .then(cars => {
+          return res.status(200).json(cars);
+        });
+    }
   }
 
-  getCar(req, res) {console.log(req.params.id);
-    this.carData.getById(req.params.id)
-      .then(response => {
-        return res.status(200).json(response);
-      })
-      .catch(err => {
-        return res.status(500).json({ "Error": err });
-      });
+  getCar(req, res) {
+    if (req.query.id) {
+      this.carData.getCar("id", req.query.id)
+        .then(response => {
+          return res.status(200).json(response);
+        })
+        .catch(err => {
+          return res.status(500).json({ "Error": err });
+        });
+    } else if (req.query.regNum) {
+      this.carData.getCar("registration_number", req.query.regNum)
+        .then(response => {
+          return res.status(200).json(response);
+        })
+        .catch(err => {
+          return res.status(500).json({ "Error": err });
+        });
+    } else {
+      return res.status(400).json({ "Error": "Unsupported search by criteria" });
+    }
   }
 
   createCar(req, res) {

@@ -22,8 +22,8 @@ class CarData extends BaseData {
         )`);
   }
 
-  async getById(id) {
-    const query = `SELECT * FROM ${dbName}.cars WHERE id=${id}`;
+  async getCar(key, value) {
+    const query = `SELECT * FROM ${dbName}.cars WHERE ${key}=${value}`;
     return await this.database.query(query);
   }
 

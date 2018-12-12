@@ -26,8 +26,17 @@ class DriverData extends BaseData {
 
   }
 
-  async getById(id) {
-    const query = `SELECT * FROM ${dbName}.drivers WHERE id=${id}`;
+  async getAll() {
+    const query = `SELECT * FROM ${dbName}.drivers 
+     INNER JOIN ${dbName}.addresses ON ${dbName}.drivers.fk_address=${dbName}.addresses.id`;
+    return await this.database.query(query);
+  }
+
+  async getBy(key, value) {
+    const query = `SELECT * FROM ${dbName}.drivers 
+      INNER JOIN ${dbName}.addresses ON ${dbName}.drivers.fk_address=${dbName}.addresses.id
+      WHERE ${key}=${value}`;
+      console.log(query);
     return await this.database.query(query);
   }
 
