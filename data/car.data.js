@@ -20,10 +20,15 @@ class CarData extends BaseData {
         big_boot VARCHAR(10) DEFAULT "FALSE",
         mot_expiration DATE
         )`);
-      }
+  }
 
   async getById(id) {
     const query = `SELECT * FROM ${dbName}.cars WHERE id=${id}`;
+    return await this.database.query(query);
+  }
+
+  async getAll() {
+    const query = `SELECT * FROM ${dbName}.cars`;
     return await this.database.query(query);
   }
 

@@ -3,13 +3,14 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const bodyParser = require('body-parser');
 const CONFIG = require('./config');
 const Database = require('./db/Database');
 const CarData = require('./data/car.data');
 const AddressData = require('./data/address.data');
 const DriverData = require('./data/driver.data');
 const OrderData = require('./data/order.data');
-const CarController = require('./controllers/car.controller'); 
+const CarController = require('./controllers/car.controller');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
@@ -76,16 +77,16 @@ async function populateDb() {
   // Populate Orders table
   const orderData = new OrderData(db);
   await orderData.init();
-  await orderData.create("Varna", "Maria Luiza", "32", "2018-12-11 17:02:51", 12, 20, "B5555CH", 9012364787);   
-  await orderData.create("Varna", "Studentska", "1", "2018-11-10 18:00:00", 10, 14, "C1672TT", 9012364787);     
-  await orderData.create("Varna", "Kraiezerna", "240", "2018-12-08 20:00:00", 6, 10, "PB8712OM", 7510038484); 
-  await orderData.create("Varna", "Vasil Levski", "18", "2018-12-09 06:00:00", 6, 10, "C1672TT", 7784449130);   
-  await orderData.create("Sofia", "Tsar Osvoboditel", "10", "2018-12-06 23:00:00", 6, 8, "A3050CM", 6006047419); 
-  await orderData.create("Sofia", "Tsar Osvobodite;", "12", "2018-10-30 02:00:00", 4, 10, "A3050CM", 9214013381);  
-  await orderData.create("Varna", "Bregalnica", "4", "2018-12-03 10:00:00", 5, 7, "PB8712OM", 9012364787);  
+  await orderData.create("Varna", "Maria Luiza", "32", "2018-12-11 17:02:51", 12, 20, "B5555CH", 9012364787);
+  await orderData.create("Varna", "Studentska", "1", "2018-11-10 18:00:00", 10, 14, "C1672TT", 9012364787);
+  await orderData.create("Varna", "Kraiezerna", "240", "2018-12-08 20:00:00", 6, 10, "PB8712OM", 7510038484);
+  await orderData.create("Varna", "Vasil Levski", "18", "2018-12-09 06:00:00", 6, 10, "C1672TT", 7784449130);
+  await orderData.create("Sofia", "Tsar Osvoboditel", "10", "2018-12-06 23:00:00", 6, 8, "A3050CM", 6006047419);
+  await orderData.create("Sofia", "Tsar Osvobodite;", "12", "2018-10-30 02:00:00", 4, 10, "A3050CM", 9214013381);
+  await orderData.create("Varna", "Bregalnica", "4", "2018-12-03 10:00:00", 5, 7, "PB8712OM", 9012364787);
   await orderData.create("Varna", "Vladislav Varnenchik", "30", "2018-12-07 07:00:00", 5, 6, "A3050CM", 9214013381);
-  await orderData.create("Varna", "8-mi primorski polk", "10", new Date().toISOString().slice(0, 19).replace('T', ' '), 5, 8, "B5555CH", 8612031846 );   
-  await orderData.create("Varna", "Vasil Levski", "144", new Date().toISOString().slice(0, 19).replace('T', ' '), 2, 3, "P3652HH", 7510038484);   
+  await orderData.create("Varna", "8-mi primorski polk", "10", new Date().toISOString().slice(0, 19).replace('T', ' '), 5, 8, "B5555CH", 8612031846);
+  await orderData.create("Varna", "Vasil Levski", "144", new Date().toISOString().slice(0, 19).replace('T', ' '), 2, 3, "P3652HH", 7510038484);
 }
 
 /**
@@ -155,19 +156,20 @@ dbDrop()
   .then(() => {
     const app = express();
 
-    // Add routes
-    apiRouter(app, db);
-
     // view engine setup
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'pug');
 
     app.use(logger('dev'));
     app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
-   
+
+    // Add routes
+    apiRouter(app, db);
+
     // catch 404 and forward to error handler
     app.use(function (req, res, next) {
       next(createError(404));
