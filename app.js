@@ -9,8 +9,10 @@ const CarData = require('./data/car.data');
 const AddressData = require('./data/address.data');
 const DriverData = require('./data/driver.data');
 const OrderData = require('./data/order.data');
+const CarController = require('./controllers/car.controller'); 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const apiRouter = require('./routes/api');
 var debug = require('debug')('taxiinformationsystem:server');
 var http = require('http');
 
@@ -78,7 +80,7 @@ async function populateDb() {
   await orderData.create("Varna", "Studentska", "1", "2018-11-10 18:00:00", 10, 14, "C1672TT", 9012364787);     
   await orderData.create("Varna", "Kraiezerna", "240", "2018-12-08 20:00:00", 6, 10, "PB8712OM", 7510038484); 
   await orderData.create("Varna", "Vasil Levski", "18", "2018-12-09 06:00:00", 6, 10, "C1672TT", 7784449130);   
-  await orderData.create("Sofia", "Tsar Osvoboditel", "10", "2018-12-09 06:00:00", 6, 10, "A3050CM", 7784449130); 
+  await orderData.create("Sofia", "Tsar Osvoboditel", "10", "2018-12-06 23:00:00", 6, 8, "A3050CM", 6006047419); 
   await orderData.create("Sofia", "Tsar Osvobodite;", "12", "2018-10-30 02:00:00", 4, 10, "A3050CM", 9214013381);  
   await orderData.create("Varna", "Bregalnica", "4", "2018-12-03 10:00:00", 5, 7, "PB8712OM", 9012364787);  
   await orderData.create("Varna", "Vladislav Varnenchik", "30", "2018-12-07 07:00:00", 5, 6, "A3050CM", 9214013381);
@@ -152,6 +154,10 @@ dbDrop()
   })
   .then(() => {
     const app = express();
+
+    // Add routes
+    apiRouter(app, db);
+
     // view engine setup
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'pug');
@@ -161,10 +167,7 @@ dbDrop()
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
     app.use(express.static(path.join(__dirname, 'public')));
-
-    app.use('/', indexRouter);
-    app.use('/users', usersRouter);
-
+   
     // catch 404 and forward to error handler
     app.use(function (req, res, next) {
       next(createError(404));
@@ -192,6 +195,6 @@ dbDrop()
     server.listen(port, () => console.log(`Server is listening on port ${port}!`));
     server.on('error', onError);
     server.on('listening', () => onListening(server));
+
   })
   .catch(err => console.log("Error: " + err));
-
