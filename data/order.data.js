@@ -34,7 +34,7 @@ class OrderData extends BaseData {
   }
 
   async getAll(){
-    const query = `SELECT * FROM ${dbName}.orders
+    const query = `SELECT *, ${dbName}.orders.id as 'orderId'  FROM ${dbName}.orders
       INNER JOIN ${dbName}.addresses ON ${dbName}.orders.fk_address=${dbName}.addresses.id
       INNER JOIN ${dbName}.drivers ON ${dbName}.orders.fk_driver=${dbName}.drivers.id
       INNER JOIN ${dbName}.cars ON ${dbName}.orders.fk_car=${dbName}.cars.id`;
