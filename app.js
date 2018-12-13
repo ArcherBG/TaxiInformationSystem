@@ -16,6 +16,7 @@ const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 var debug = require('debug')('taxiinformationsystem:server');
 var http = require('http');
+var cors = require('cors')
 
 const db = new Database();
 
@@ -160,6 +161,7 @@ dbDrop()
     app.set('views', path.join(__dirname, 'views'));
     app.set('view engine', 'pug');
 
+    app.use(cors()); // enable CORS
     app.use(logger('dev'));
     app.use(express.json());
     app.use(bodyParser.json())
