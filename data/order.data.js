@@ -65,6 +65,15 @@ class OrderData extends BaseData {
     return await this.database.transaction(addressQuery, ordersQuery);
   }
 
+  async update(registrationNumber, distance, bill){
+    const query = `UPDATE ${dbName}.orders 
+        INNER JOIN ${dbName}.cars ON ${dbName}.orders.fk_car=${dbName}.cars.id 
+        SET distance=${distance}, bill=${bill} 
+        WHERE ${dbName}.cars.registration_number="${registrationNumber}"
+            AND ${dbName}.orders.id = (Select MAX(${dbName}.cars.id))`;
+    return await this.database.query(query);
+  }
+ 
 }
 
 module.exports = OrderData;
