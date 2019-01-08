@@ -40,8 +40,8 @@ async function populateDb() {
   await carData.create("1100", "CA7494PT", "Mercedes", "C220", 4, "TRUE", "2019-01-02");
   await carData.create("1015", "H8726KA", "BMW", "330", 3, "FALSE", "2021-08-20");
   await carData.create("1112", "A3050CM", "Mitsubishi", "Grandis", 6, "TRUE", "2020-07-14");
-  await carData.create("2000", "BT8715XP", "Open", "Zafira", 6, "TRUE", "2022-04-18");
-  await carData.create("1398", "C1672TT", "Open", "Astra", 4, "FALSE", "2018-12-12");
+  await carData.create("2000", "BT8715XP", "Opel", "Zafira", 6, "TRUE", "2022-04-18");
+  await carData.create("1398", "C1672TT", "Opel", "Astra", 4, "FALSE", "2018-12-12");
   await carData.create("1428", "PB8712OM", "Toyota", "Yaris", 3, "FALSE", "2019-03-25");
   await carData.create("3100", "P0324AB", "Nissan", "Patrol", 6, "TRUE", "2022-04-10");
   await carData.create("3800", "A3971EA", "Citroen", "C5", 5, "TRUE", "2020-07-11");
@@ -79,7 +79,7 @@ async function populateDb() {
   const orderData = new OrderData(db);
   await orderData.init();
   await orderData.create("Varna", "Maria Luiza", "32", "2018-12-11 17:02:51", 12, 20, "B5555CH", 9012364787);
-  await orderData.create("Varna", "Studentska", "1", "2018-11-10 18:00:00", 10, 14, "C1672TT", 9012364787);
+  await orderData.create("Varna", "Studentska", "1", "2018-11-10 12:00:00", 10, 14, "C1672TT", 9012364787);
   await orderData.create("Varna", "Kraiezerna", "240", "2018-12-08 20:00:00", 6, 10, "PB8712OM", 7510038484);
   await orderData.create("Varna", "Vasil Levski", "18", "2018-12-09 06:00:00", 6, 10, "C1672TT", 7784449130);
   await orderData.create("Sofia", "Tsar Osvoboditel", "10", "2018-12-06 23:00:00", 6, 8, "A3050CM", 6006047419);
